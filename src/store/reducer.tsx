@@ -89,6 +89,7 @@ const reducer = (state = initialState, action) => {
     classes.map((cl, key) => {
       if (cl.className === action.val) {
         classes[key].imageData.length = 0;
+        classes[key].imageCount = 0;
       }
       return classes;
     });
