@@ -7,6 +7,9 @@ type ImageState = {
 };
 type AppState = {
   classDetails: ImageState[];
+  canTrainModel: boolean;
+  isModelTrained: boolean;
+  isTrainingModel: boolean;
 };
 const initialState: AppState = {
   classDetails: [
@@ -17,7 +20,17 @@ const initialState: AppState = {
       webCamCaptureClicked: false,
       isRemoveImages: false,
     },
+    {
+      className: "Class 2",
+      imageData: [],
+      imageCount: 0,
+      webCamCaptureClicked: false,
+      isRemoveImages: false,
+    },
   ],
+  canTrainModel: false,
+  isModelTrained: false,
+  isTrainingModel: false,
 };
 const reducer = (state = initialState, action) => {
   console.log("action type", action.type);
@@ -78,9 +91,20 @@ const reducer = (state = initialState, action) => {
       }
       return classes;
     });
+
+    let canTrainModel = false;
+    if (classes.length >= 2) {
+      classes.every((classObj) => {
+        return classObj.imageData.length > 0
+          ? (canTrainModel = true)
+          : (canTrainModel = false);
+      });
+    }
+    console.log("classes.length >= 2", canTrainModel);
     return {
       ...state,
       classDetails: [...classes],
+      canTrainModel: canTrainModel,
     };
   }
   if (action.type === "REMOVE_SAMPLES") {
@@ -97,8 +121,29 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       classDetails: [...classes],
+      canTrainModel: false,
     };
   }
+  if (action.type === "TRAIN_MODEL") {
+    console.log("TRAIN_MODEL");
+
+    return {
+      ...state,
+      isModelTrained: true,
+      isTrainingModel: false,
+      canTrainModel: false,
+    };
+  }
+  if (action.type === "TRAINING_MODEL") {
+    console.log("TRAINING_MODEL");
+
+    return {
+      ...state,
+      isTrainingModel: true,
+      canTrainModel: false,
+    };
+  }
+
   return state;
 };
 export default reducer;

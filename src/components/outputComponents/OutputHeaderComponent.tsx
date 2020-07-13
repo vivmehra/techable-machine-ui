@@ -1,5 +1,6 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
+import PublishOutlinedIcon from "@material-ui/icons/PublishOutlined";
 
 class OutputHeaderComponent extends React.Component {
   render() {
@@ -18,7 +19,8 @@ class OutputHeaderComponent extends React.Component {
             disabled={false}
             style={{ marginBottom: "10px" }}
           >
-            Export Model
+            <PublishOutlinedIcon fontSize="small" />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Export Model
           </Button>
         </span>
       </div>

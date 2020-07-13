@@ -1,8 +1,22 @@
 import * as React from "react";
 import SimpleAccordion from "./Accordion";
 import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+type Props = {
+  canTrainModel: boolean;
+  isModelTrained: boolean;
+  isTrainingModel: boolean;
+  onTrainModelHandler: () => void;
+  onMockTrainingModel: () => void;
+};
 
-class TrainModel extends React.Component {
+class TrainModel extends React.Component<Props> {
+  trainModelClickHandler = () => {
+    this.props.onMockTrainingModel();
+    setTimeout(() => {
+      this.props.onTrainModelHandler();
+    }, 10000);
+  };
   render() {
     return (
       <div
@@ -21,14 +35,29 @@ class TrainModel extends React.Component {
           variant="contained"
           color="primary"
           size="small"
-          disabled={true}
+          disabled={!this.props.canTrainModel}
           style={{ marginBottom: "10px" }}
+          onClick={this.trainModelClickHandler}
         >
-          Train Model
+          {this.props.isModelTrained ? `Model Trained` : `Train Model`}
         </Button>
+        {this.props.isTrainingModel && <p>Training Model....</p>}
         <SimpleAccordion />
       </div>
     );
   }
 }
-export default TrainModel;
+const mapStateToProps = (state) => {
+  return {
+    canTrainModel: state.canTrainModel,
+    isModelTrained: state.isModelTrained,
+    isTrainingModel: state.isTrainingModel,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onTrainModelHandler: () => dispatch({ type: "TRAIN_MODEL" }),
+    onMockTrainingModel: () => dispatch({ type: "TRAINING_MODEL" }),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TrainModel);
