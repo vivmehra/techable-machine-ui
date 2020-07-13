@@ -3,6 +3,8 @@ import ClassComponent from "./ClassComponent";
 // import Button from "@material-ui/core/Button";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import { connect } from "react-redux";
+import TrainModel from "./trainingComponents/TrainModel";
+import OutputContainerComponent from "./outputComponents/OutputContainerComponent";
 type ImageState = {
   className: string;
   imageData: any[];
@@ -86,35 +88,67 @@ class ClassContainer extends React.Component<Props> {
     // console.log("this.props.classes", this.props.classes);
     return (
       <>
-        {this.props.classes.length > 0 &&
-          this.props.classes.map((cl: ImageState) => {
-            return (
-              <ClassComponent
-                nameClass={cl.className}
-                handleContextAction={(metaData) =>
-                  this.handleContextAction(metaData)
-                }
-                isRemoveImages={cl.isRemoveImages}
-              />
-            );
-          })}
-
-        {/* <ClassComponent /> */}
         <div
-          className="rounded m-4"
-          style={{
-            backgroundColor: "#eee",
-            borderRadius: "200px",
-            width: "33%",
-            height: "20%",
-            textAlign: "center",
-          }}
+          className="tmContainer row row-list"
+          style={{ width: "100%", position: "relative" }}
         >
-          <AddCircleTwoToneIcon
-            onClick={this.props.onAddClass}
-            color="primary"
-            fontSize="large"
-          />
+          <div className="classesContainer col-5">
+            {this.props.classes.length > 0 &&
+              this.props.classes.map((cl: ImageState) => {
+                return (
+                  <ClassComponent
+                    nameClass={cl.className}
+                    handleContextAction={(metaData) =>
+                      this.handleContextAction(metaData)
+                    }
+                    isRemoveImages={cl.isRemoveImages}
+                  />
+                );
+              })}
+
+            {/* <ClassComponent /> */}
+            <div
+              className="rounded m-4"
+              style={{
+                backgroundColor: "#eee",
+                borderRadius: "200px",
+                // height: "20%",
+                textAlign: "center",
+              }}
+            >
+              <AddCircleTwoToneIcon
+                onClick={this.props.onAddClass}
+                color="primary"
+                fontSize="large"
+              />
+            </div>
+          </div>
+
+          <div
+            className="modelContainer col-3"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              msTransform: "translate(-50%, -50%)",
+              transform: " translate(-50%, -50%)",
+            }}
+          >
+            <TrainModel />
+          </div>
+
+          <div
+            className="previewContainer col-4"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "60%",
+              msTransform: "translate(-50%, -50%)",
+              transform: " translate(0%, -50%)",
+            }}
+          >
+            <OutputContainerComponent />
+          </div>
         </div>
       </>
     );

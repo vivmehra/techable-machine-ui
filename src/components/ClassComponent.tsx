@@ -12,7 +12,7 @@ class ClassComponent extends React.Component<Props> {
     return (
       <div
         className="rounded m-4"
-        style={{ backgroundColor: "#eee", borderRadius: "200px", width: "33%" }}
+        style={{ backgroundColor: "#eee", borderRadius: "200px" }}
       >
         <ClassHeader
           nameClass={this.props.nameClass}
