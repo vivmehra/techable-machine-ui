@@ -1,8 +1,12 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
 import PublishOutlinedIcon from "@material-ui/icons/PublishOutlined";
+import { connect } from "react-redux";
 
-class OutputHeaderComponent extends React.Component {
+type Props = {
+  isModelTrained: boolean;
+};
+class OutputHeaderComponent extends React.Component<Props> {
   render() {
     return (
       <div>
@@ -16,7 +20,7 @@ class OutputHeaderComponent extends React.Component {
             variant="contained"
             color="primary"
             size="small"
-            disabled={false}
+            disabled={!this.props.isModelTrained}
             style={{ marginBottom: "10px" }}
           >
             <PublishOutlinedIcon fontSize="small" />
@@ -27,4 +31,9 @@ class OutputHeaderComponent extends React.Component {
     );
   }
 }
-export default OutputHeaderComponent;
+const mapStateToProps = (state) => {
+  return {
+    isModelTrained: state.isModelTrained,
+  };
+};
+export default connect(mapStateToProps)(OutputHeaderComponent);
